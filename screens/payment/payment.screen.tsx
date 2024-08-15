@@ -9,7 +9,7 @@ export default function PaymentScreen() {
   if (!url) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>URL is missing or invalid</Text>
+        <Text style={styles.errorText}>Server Error</Text>
       </View>
     );
   }

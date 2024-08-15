@@ -82,37 +82,46 @@ export default function SignUpScreen() {
   };
 
   const handleSignUp = async () => {
+    // Validasi input kosong
+    if (!userInfo.name || !userInfo.email || !userInfo.password) {
+      Toast.show("Semua Kolom Wajib di isi!", {
+        type: "danger",
+      });
+      return;
+    }
+  
     setButtonSpinner(true);
-    await axios
-      .post(`${SERVER_URI}/registration`, {
+    try {
+      const res = await axios.post(`${SERVER_URI}/registration`, {
         name: userInfo.name,
         email: userInfo.email,
         password: userInfo.password,
-      })
-      .then(async (res) => {
-        await AsyncStorage.setItem(
-          "activation_token",
-          res.data.activationToken
-        );
-        Toast.show("Silahkan cek Email anda: " + userInfo.email + " untuk mengaktifkan akun anda ", {
-          type: "success",
-
-        });
-        setUserInfo({
-          name: "",
-          email: "",
-          password: "",
-        });
-        setButtonSpinner(false);
-        router.push("/(routes)/verifyAccount");
-      })
-      .catch((error) => {
-        setButtonSpinner(false); 
-        Toast.show("Email Telah Terdaftar", {
+      });
+      await AsyncStorage.setItem("activation_token", res.data.activationToken);
+      Toast.show("Silahkan cek Email anda: " + userInfo.email + " untuk mengaktifkan akun anda", {
+        type: "success",
+      });
+      setUserInfo({
+        name: "",
+        email: "",
+        password: "",
+      });
+      router.push("/(routes)/verifyAccount");
+    } catch (error:any) {
+      if (error.response && error.response.data.message === 'Email already exist') {
+        Toast.show("Email sudah terdaftar", {
           type: "danger",
         });
-      });
+      } else {
+        Toast.show("Terjadi kesalahan server", {
+          type: "danger",
+        });
+      }
+    } finally {
+      setButtonSpinner(false);
+    }
   };
+  
 
   return (
     <LinearGradient colors={["#FCEDF0", "#F6F7F9"]} style={{ flex: 1 }}>

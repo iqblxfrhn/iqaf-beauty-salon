@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
@@ -75,32 +75,34 @@ export default function TransactionScreen() {
 
   return (
     <LinearGradient colors={['#FCEDF0', '#F6F7F9']} style={{ flex: 1 }}>
-        <View style={{paddingTop: 40, marginBottom: 10, marginLeft: 10}}>
-            <Text style={{fontFamily: "Poppins_700Bold", fontSize: 20}}>Riwayat Transaksi</Text>
-        </View>
+      <View style={{ paddingTop: 40, marginBottom: 10, marginLeft: 10 }}>
+        <Text style={{ fontFamily: 'Poppins_700Bold', fontSize: 20 }}>Riwayat Transaksi</Text>
+      </View>
       <View style={styles.tabContainer}>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === 'Orders' && styles.activeTab]}
-          onPress={() => setActiveTab('Orders')}
-        >
-          <Text style={[styles.tabText, activeTab === 'Orders' && styles.activeTabText]}>Orders</Text>
+          onPress={() => setActiveTab('Orders')}>
+          <Text style={[styles.tabText, activeTab === 'Orders' && styles.activeTabText]}>
+            Orders
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === 'Bookings' && styles.activeTab]}
-          onPress={() => setActiveTab('Bookings')}
-        >
-          <Text style={[styles.tabText, activeTab === 'Bookings' && styles.activeTabText]}>Bookings</Text>
+          onPress={() => setActiveTab('Bookings')}>
+          <Text style={[styles.tabText, activeTab === 'Bookings' && styles.activeTabText]}>
+            Bookings
+          </Text>
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: 10, }}>
+      <View style={{ flex: 1, marginTop: 10 }}>
         {activeTab === 'Orders' ? (
           <FlatList
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 10 }}
-          data={orders}
-          keyExtractor={(item) => item._id.toString()}
-          renderItem={({ item }) => <OrdersCard item={item} />}
-        />
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 10 }}
+            data={orders}
+            keyExtractor={(item) => item._id.toString()}
+            renderItem={({ item }) => <OrdersCard item={item} />}
+          />
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}

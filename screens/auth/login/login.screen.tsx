@@ -236,27 +236,12 @@ export default function LoginScreen() {
               </View>
             )}
           </View>
-          <TouchableOpacity
-            onPress={() => router.push("/(routes)/forgot-password")}
-          >
-            <Text
-              style={{
-                textAlign: "right",
-                fontSize: 16,
-                fontFamily: "Poppins_600SemiBold",
-                marginTop: -5,
-                color: "#ED2B8A",
-              }}
-            >
-              Lupa Password?
-            </Text>
-          </TouchableOpacity>
+          
 
           <TouchableOpacity
             style={{
               paddingVertical: 15,
               borderRadius: 4,
-              marginTop: -20,
               backgroundColor: "#ED2B8A",
               width: 317,
             }}

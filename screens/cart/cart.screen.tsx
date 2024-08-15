@@ -149,6 +149,13 @@ export default function CartScreen() {
     setSelectAllActive(!selectAllActive);
   };
 
+  const filterValidCoupons = (coupons: CouponsType[]) => {
+    const currentDate = new Date();
+    return coupons.filter((coupon) => new Date(coupon.expiredDate) > currentDate);
+  };
+
+  const validCoupons = filterValidCoupons(coupons);
+
   const handleSelectCoupon = (coupon: CouponsType) => {
     if (selectedCoupon?._id === coupon._id) {
       setSelectedCoupon(null);
@@ -284,39 +291,7 @@ export default function CartScreen() {
   return (
     <LinearGradient colors={['#FCEDF0', '#F6F7F9']} style={{ flex: 1 }}>
       {orderSuccess ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
-            source={require('@/assets/images/order-success.png')}
-            style={{
-              width: 200,
-              height: 200,
-              resizeMode: 'contain',
-              marginBottom: 20,
-            }}
-          />
-          <View style={{ alignItems: 'center', marginBottom: 20 }}>
-            <Text style={{ fontSize: 22, fontFamily: 'Poppins_700Bold' }}>Pembayaran Berhasil</Text>
-            <Text
-              style={{
-                fontSize: 15,
-                marginTop: 5,
-                color: '#575757',
-                fontFamily: 'Poppins_400Regular',
-              }}>
-              Terima kasih atas pembelian Anda!
-            </Text>
-          </View>
-          <View style={{ alignItems: 'center', marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, color: '575757' }}>
-              Anda akan segera menerima sebuah email!
-            </Text>
-            <TouchableOpacity onPress={() => router.push('/(tabs)')} style={{ marginTop: 20 }}>
-              <Text style={{ fontFamily: 'Poppins_600SemiBold', color: '#ED2B8A', fontSize: 16 }}>
-                Kembali ke Halaman Utama
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}></View>
       ) : (
         <>
           <View style={styles.header}>
@@ -579,7 +554,7 @@ export default function CartScreen() {
               Spesial Buat Kamu!
             </Text>
             <FlatList
-              data={coupons}
+              data={validCoupons}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item) => item._id.toString()}
               renderItem={({ item }) => (

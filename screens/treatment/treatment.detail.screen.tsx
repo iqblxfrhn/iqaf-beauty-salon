@@ -34,12 +34,22 @@ export default function TreatmentDetailScreen() {
   const [next7Days, setNext7Days] = useState<DayInfo[]>([]);
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [isBookingButtonEnabled, setIsBookingButtonEnabled] = useState(false);
 
   useEffect(() => {
     moment.locale('id');
     getDays();
     getTimes();
   }, []);
+
+  useEffect(() => {
+    // Update button status based on date and time selection
+    if (selectedDate && selectedTime) {
+      setIsBookingButtonEnabled(true);
+    } else {
+      setIsBookingButtonEnabled(false);
+    }
+  }, [selectedDate, selectedTime]);
 
   const getDays = () => {
     const today = moment();
@@ -438,19 +448,21 @@ export default function TreatmentDetailScreen() {
               )}
             />
             <TouchableOpacity
+              disabled={!isBookingButtonEnabled}
               onPress={handleAddBooking}
               style={{
-                backgroundColor: '#ED2B8A',
+                backgroundColor: isBookingButtonEnabled ? '#ED2B8A' : '#ccc', 
                 height: 45,
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: 10,
+                borderRadius: 5, 
               }}>
               <Text
                 style={{
                   fontFamily: 'Poppins_600SemiBold',
                   fontSize: 16,
-                  color: '#fff',
+                  color: '#fff', 
                 }}>
                 Buat Reservasi
               </Text>
